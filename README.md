@@ -11,5 +11,8 @@
 > We should prepare `provider.tf` before appling any terraform files.
 2. K8s instance will have two Namespaces: tools and dev
 
-    By using terraform we created 2 namespaces (tools and dev) in `namespaces.tf` file.
+    By using terraform we created 2 namespaces (tools and dev) in [namespaces module](/terraform/namespaces).
 
+3. Deploy pod for jenkins and nexus in `tools` namespace
+
+    - 
