@@ -6,3 +6,7 @@ module "namespaces" {
 module "jenkins" {
   source = "./jenkins"
 }
+
+module "nexus" {
+  source = "./nexus"
+}
