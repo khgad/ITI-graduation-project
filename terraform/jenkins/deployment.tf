@@ -24,7 +24,7 @@ resource "kubernetes_deployment" "jenkins" {
       spec {
         service_account_name = "jenkins-admin"
         container {
-          image = "jenkins/jenkins:lts"
+          image = "khaledgad/jenkins-pod"
           name = "jenkins"
 
           port {
