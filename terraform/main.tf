@@ -10,3 +10,7 @@ module "jenkins" {
 module "nexus" {
   source = "./nexus"
 }
+
+module "mysql" {
+  source = "./mysql"
+}
