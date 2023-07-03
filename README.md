@@ -8,8 +8,13 @@
 
 ## Steps
 
-> We should prepare `provider.tf` before appling any terraform files.
+### 1. Install Minikube using Ansible
+
+Making ansible [playbook](/ansible/playbook.yml) to install minikube and kubectl locally.
+
 ### 2. K8s instance will have two Namespaces: **tools** and **dev**
+
+> We should prepare `provider.tf` before appling any terraform files.
 
 By using terraform we created 2 namespaces (`tools` and `dev`) in [namespaces module](/terraform/namespaces).
 

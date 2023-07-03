@@ -1,0 +1,48 @@
+- name: Install Minikube
+  hosts: remote
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Install dependencies
+      apt:
+        name: ['curl', 'wget', 'virtualbox']
+
+    - name: Download Minikube binary
+      get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /tmp/minikube-linux-amd64
+        mode: '0755'
+
+    - name: Install Minikube
+      command: mv /tmp/minikube-linux-amd64 /usr/local/bin/minikube
+      args:
+        creates: /usr/local/bin/minikube
+
+    - name: Check if kubectl is installed
+      stat:
+        path: /usr/local/bin/kubectl
+      register: kubectl_installed
+      changed_when: false
+
+    - name: Get latest kubectl version
+      command: curl -L -s https://dl.k8s.io/release/stable.txt
+      register: kubectl_version_output
+
+    - name: Download kubectl binary
+      command: curl -LO "https://dl.k8s.io/release/{{ kubectl_version_output.stdout }}/bin/linux/amd64/kubectl"
+      args:
+        chdir: /tmp
+
+    - name: Install kubectl
+      command: install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      args:
+        chdir: /tmp
+
+    - name: Verify minikube installation
+      command: minikube version=
+
+    - name: Configure Minikube
+      command: minikube config set driver virtualbox
+
+    # - name: Start Minikube
+    #   command: minikube start --driver=virtualbox --memory=4096 --cpus=2
