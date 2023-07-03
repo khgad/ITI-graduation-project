@@ -1,7 +1,7 @@
 module "namespaces" {
   source = "./namespaces"
 
-  namespaces = [ "tools", "dev" ]
+  namespaces = ["tools", "dev"]
 }
 module "jenkins" {
   source = "./jenkins"
@@ -13,4 +13,8 @@ module "nexus" {
 
 module "mysql" {
   source = "./mysql"
+}
+
+module "nodejs-app" {
+  source = "./app"
 }

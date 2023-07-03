@@ -69,3 +69,40 @@ kubectl exec -n tools <nexus-pod-name> -- cat /nexus-data/admin.password
 ### 4. `dev` namespace will run two pods: one for nodejs application and another for MySQL DB
 
 we have 2 deployment yaml files one for [nodejs]() and another for [MySQL DB]() that will be deployed in `dev` namespace through jenkins pipeline.
+
+
+---
+
+## To do list
+
+> [ main tasks ]
+
+> create service for app [Done]
+
+> make sure service and secret of app are deployed
+
+> make pipeline to deploy the app
+
+> write jenkins code in jenkinsfile in project repo
+
+> make mysql service to be cluster ip only after you make sure its connected to app
+
+> [ screenshots]
+
+> resource are deployed to k8s after terraform apply
+
+> image is pushed to docker repo in nexus
+
+> pipeline code is completed successfully
+
+> app is running
+
+> app is connected to mysql
+
+> [ bounes ]
+
+> use variables in terraform code
+
+> [ need to be done ]
+
+> ansible code to install minikube localy
