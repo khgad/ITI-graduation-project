@@ -30,15 +30,5 @@ pipeline {
                 sh "docker push 10.98.126.24:5000/repository/docker-repo/app:latest"
             }
         }
-        
-        stage('Deploy Image on Minikube') {
-            steps {
-                // Deploy the app to Cluster
-                sh """
-                ls -l
-                kubectl apply -f app-manifests/myapp.yml
-                """
-            }
-        }
     }
 }

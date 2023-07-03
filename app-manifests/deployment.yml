@@ -17,3 +17,7 @@ spec:
         image: 10.98.126.24:5000/repository/docker-repo/app:latest
         ports:
         - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: app-secret
+    
