@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Deploy the app to Cluster
                 sh """
-                kubectl apply -f app-manifests/deployemnt.yml
+                kubectl apply -f app-manifests
                 """
             }
         }
