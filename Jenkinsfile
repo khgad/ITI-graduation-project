@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone App Repository') {
+            steps {
+                // Clone the repository
+                git url: 'https://github.com/mahmoud254/jenkins_nodejs_example.git', branch: 'k8s_task'
+            }
+        }
+        
+        stage('Build Image') {
+            steps {
+                // Build the image as per your requirements
+                sh 'docker build -t grad-app:latest .'
+            }
+        }
+        
+        stage('Push Image to Nexus') {
+            steps {
+                // Login to the Nexus registry
+                withCredentials([usernamePassword(credentialsId: 'nexus', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh "docker login -u $USERNAME -p $PASSWORD 10.98.126.24:5000"
+                }
+                
+                // Tag the image with Nexus registry information
+                sh "docker tag grad-app:latest 10.98.126.24:5000/repository/docker-repo/app:latest"
+                
+                // Push the image to Nexus registry
+                sh "docker push 10.98.126.24:5000/repository/docker-repo/app:latest"
+            }
+        }
+        
+        stage('Deploy Image on Minikube') {
+            steps {
+                // Deploy the app to Cluster
+                sh """
+                kubectl apply -f app-manifests/myapp.yml
+                """
+            }
+        }
+    }
+}

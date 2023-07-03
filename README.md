@@ -79,7 +79,7 @@ we have 2 deployment yaml files one for [nodejs]() and another for [MySQL DB]() 
 
 > create service for app [Done]
 
-> make sure service and secret of app are deployed
+> make sure service and secret of app are deployed [Done]
 
 > make pipeline to deploy the app
 
@@ -91,7 +91,7 @@ we have 2 deployment yaml files one for [nodejs]() and another for [MySQL DB]() 
 
 > resource are deployed to k8s after terraform apply
 
-> image is pushed to docker repo in nexus
+> image is pushed to docker repo in nexus [Done]
 
 > pipeline code is completed successfully
 
