@@ -3,7 +3,7 @@ resource "kubernetes_cluster_role" "jenkins-admin" {
     name = "jenkins-admin"
   }
   rule {
-    api_groups = [""]
+    api_groups = ["*"]
     resources = ["*"]
     verbs = ["*"]
   }
