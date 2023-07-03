@@ -19,7 +19,7 @@ We will create 2 modules for [jenkins](/terraform/jenkins/) and [nexus](/terrafo
 
 **Jenkins configuration:**
 
-1. get jenkins admin password:
+> get jenkins admin password:
 
 ```bash
 kubectl exec -n tools <jenkins-pod-name> -- cat /var/jenkins_home/secrets/initialAdminPassword
@@ -30,7 +30,7 @@ kubectl exec -n tools <jenkins-pod-name> -- cat /var/jenkins_home/secrets/initia
 </div>
 <br> 
 
-2. setup username and password
+> setup username and password
 
 <div align="center">
 <img src="screenshots/jenkins-user-pass.png">
@@ -39,70 +39,98 @@ kubectl exec -n tools <jenkins-pod-name> -- cat /var/jenkins_home/secrets/initia
 
 **Nexus configuration:**
 
-1. get nexus admin password:
+> get nexus admin password:
 
 ```bash
 kubectl exec -n tools <nexus-pod-name> -- cat /nexus-data/admin.password
 ```
 
-2. login into nexus server
+> login into nexus server
 
 <div align="center">
 <img src="screenshots/nexus-login.png">
 </div>
 <br> 
 
-3. create new user
+> create new user
 
 <div align="center">
 <img src="screenshots/nexus-new-user.png">
 </div>
 <br> 
 
-4. create new repository for docker
+> create new repository for docker
 
 <div align="center">
 <img src="screenshots/nexus-new-repo.png">
 </div>
 <br> 
 
+> Make Docker Bearer Token active in realms
+
+<div align="center">
+<img src="screenshots/docker-token-active.png">
+</div>
+<br> 
+
 ### 4. `dev` namespace will run two pods: one for nodejs application and another for MySQL DB
 
-we have 2 deployment yaml files one for [nodejs]() and another for [MySQL DB]() that will be deployed in `dev` namespace through jenkins pipeline.
+we have 2 deployments, one for `nodejs` which will be deployed through jenkins pipeline and another for `MySQL DB` which will be deployed using terraform
 
+we created terraform module for [mysql](/terraform/mysql/) which containt `deployment`, `service` and `secrets` resources.
 
----
+another module for our [application](/terraform/app/) that contain `service` and `secrets`.
 
-## To do list
+### 5. Jenkins pipeline to build the application
 
-> [ main tasks ]
+> Add credintials for nexus to login to docker repo in  nexus
 
-> create service for app [Done]
+<div align="center">
+<img src="screenshots/jenkins-credentials.png">
+</div>
+<br> 
 
-> make sure service and secret of app are deployed [Done]
+> Make pipeline to build application
 
-> make pipeline to deploy the app
+<div align="center">
+<img src="screenshots/jenkins-build-pipeline.png">
+</div>
+<br> 
 
-> write jenkins code in jenkinsfile in project repo
+> Image is pushed to docker-repo in nexus
 
-> make mysql service to be cluster ip only after you make sure its connected to app
+<div align="center">
+<img src="screenshots/nexus-docker-repo.png">
+</div>
+<br> 
 
-> [ screenshots]
+### 6. Jenkins pipeline to deploy the application
 
-> resource are deployed to k8s after terraform apply
+we will use this [deployment file](/app-manifests/deployment.yml) with the image we just pushed on docker-repo in nexus for our app to deploy on minikube in `dev` namespace 
 
-> image is pushed to docker repo in nexus [Done]
+<div align="center">
+<img src="screenshots/jenkins-deploy-pipeline.png">
+</div>
+<br>
 
-> pipeline code is completed successfully
+> app is deployed
 
-> app is running
+<div align="center">
+<img src="screenshots/app-deployed.png">
+</div>
+<br>
 
-> app is connected to mysql
+> app is running on nodeport `32300`
 
-> [ bounes ]
+<div align="center">
+<img src="screenshots/app-running.png">
+</div>
+<br>
 
-> use variables in terraform code
+> mysql is running on nodeport `32003`
 
-> [ need to be done ]
+<div align="center">
+<img src="screenshots/mysql-running.png">
+</div>
+<br>
 
-> ansible code to install minikube localy
