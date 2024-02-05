@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone App Repository') {
+            steps {
+                // Clone the repository
+                git url: 'https://github.com/khgad/ITI-graduation-project.git', branch: 'main'
+            }
+        }
+        
+        stage('Deploy Image on Minikube') {
+            steps {
+                // Deploy the app to Cluster
+                sh """
+                kubectl apply -f app-manifests
+                """
+            }
+        }
+    }
+}
